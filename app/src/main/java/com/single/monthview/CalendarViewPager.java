@@ -78,30 +78,32 @@ public class CalendarViewPager extends ViewPager {
         monthViews.add(monthView1);
         monthViews.add(monthView2);
         monthViews.add(monthView3);
+        monthView1.setOnclickWhere(new MonthView.OnclickWhere() {
+            @Override
+            public void onWhere(String day) {
+                if (onDayClick != null) {
+                    onDayClick.onClick(day);
+                }
+            }
+        });
+        monthView2.setOnclickWhere(new MonthView.OnclickWhere() {
+            @Override
+            public void onWhere(String day) {
+                if (onDayClick != null) {
+                    onDayClick.onClick(day);
+                }
+            }
+        });
+        monthView3.setOnclickWhere(new MonthView.OnclickWhere() {
+            @Override
+            public void onWhere(String day) {
+                if (onDayClick != null) {
+                    onDayClick.onClick(day);
+                }
+            }
+        });
         //这里默认是第一个item
         current = Integer.MAX_VALUE / 2 + 1;
-//        Log.d(TAG, "year:" + ((MonthView) monthViews.get(current % 3)).getYear());
-//        Log.d(TAG, "month:" + ((MonthView) monthViews.get(current % 3)).getMonth());
-//        for (int i = startYear; i <= endYear; i++) {
-//            for (int j = 1; j <= 12; j++) {
-//                index++;
-//                MonthView monthView1 = new MonthView(getContext());
-//                monthView1.setYearMonth(i, j);
-//                monthView1.setOnclickWhere(new MonthView.OnclickWhere() {
-//                    @Override
-//                    public void onWhere(String day) {
-//                        if (onDayClick != null) {
-//                            onDayClick.onClick(day);
-//                        }
-//                    }
-//                });
-//                monthViews.add(monthView1);
-//                if (month == monthView1.getMonth() && year == monthView1.getYear()) {
-//                    current = index - 1;
-//                }
-//            }
-//
-//        }
         setAdapter(new ViewPagerAdapter(monthViews));
         setCurrentItem(current);
         addOnPageChangeListener(new OnPageChangeListener() {
@@ -112,7 +114,6 @@ public class CalendarViewPager extends ViewPager {
 
             @Override
             public void onPageSelected(int position) {
-//                position = position % 3;
                 current = position;
                 MonthView view = (MonthView) monthViews.get(position % 3);
                 year = view.getYear();
@@ -133,7 +134,6 @@ public class CalendarViewPager extends ViewPager {
                     nextYear = year;
                     nextMonth = month + 1;
                 }
-                //如果为0，下一个
                 position = position % 3;
                 if (position == 0) {
                     MonthView nextMonthView = (MonthView) monthViews.get(position + 1);

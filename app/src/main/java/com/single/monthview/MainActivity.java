@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +26,12 @@ public class MainActivity extends AppCompatActivity {
                     strMonth = "" + month;
                 }
                 selectDate.setText(year + "年" + strMonth + "月");
+            }
+        });
+        calendarViewPager.setOnDayClick(new CalendarViewPager.OnDayClick() {
+            @Override
+            public void onClick(String day) {
+                Toast.makeText(MainActivity.this, "日期:" + day, Toast.LENGTH_SHORT).show();
             }
         });
         findViewById(R.id.left).setOnClickListener(new View.OnClickListener() {

@@ -103,7 +103,7 @@ public class MonthView extends View {
 
     public MonthView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        itemHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, getContext().getResources().getDisplayMetrics());
+        itemHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, getContext().getResources().getDisplayMetrics());
         currentRadius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12.5f, getContext().getResources().getDisplayMetrics());
         dakaRadius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2.5f, getContext().getResources().getDisplayMetrics());
         spaceDaka = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getContext().getResources().getDisplayMetrics());
