@@ -7,6 +7,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by xiangcheng on 18/7/5.
@@ -72,7 +73,6 @@ public class CalendarViewPager extends ViewPager {
 
         MonthView monthView2 = new MonthView(getContext());
         monthView2.setYearMonth(year, month);
-
         MonthView monthView3 = new MonthView(getContext());
         monthView3.setYearMonth(nextYear, nextMonth);
         monthViews.add(monthView1);
@@ -151,6 +151,7 @@ public class CalendarViewPager extends ViewPager {
                     MonthView preMonthView = (MonthView) monthViews.get(position - 1);
                     preMonthView.setYearMonth(preYear, preMonth);
                 }
+                view.setDakaList(dakaList);
                 if (onMonthChange != null) {
                     onMonthChange.onChange(year, month);
                 }
@@ -191,10 +192,13 @@ public class CalendarViewPager extends ViewPager {
         setCurrentItem(current);
     }
 
-//    public void setDakaList(List<DakaItem> dakaList) {
-//        MonthView view = (MonthView) monthViews.get(current);
-//        view.setDakaList(dakaList);
-//    }
+    private List<DakaItem> dakaList;
+
+    public void setDakaList(List<DakaItem> dakaList) {
+        this.dakaList = dakaList;
+        MonthView view = (MonthView) monthViews.get(current % 3);
+        view.setDakaList(dakaList);
+    }
 //
 //    public boolean hasCurrentMonthDaka() {
 //        MonthView view = (MonthView) monthViews.get(current);

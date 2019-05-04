@@ -14,6 +14,7 @@ import android.view.View;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -41,7 +42,7 @@ public class MonthView extends View {
 
     private static final String[] weekStr = new String[]{"日", "一", "二", "三", "四", "五", "六"};
 
-    //    private List<DakaItem> dakaList;
+    private List<DakaItem> dakaList;
     private int dakaRadius;
 
     private SimpleDateFormat format = new SimpleDateFormat("yyyy_MM_dd");
@@ -59,27 +60,27 @@ public class MonthView extends View {
         public String date;
     }
 
-//    public void setDakaList(List<DakaItem> dakaList) {
-//        this.dakaList = dakaList;
-//        invalidate();
-//        dakaInit = true;
-//    }
-//
-//    //判断那天是不是在打卡里面
-//    public boolean checkIsDaka(String date) {
-//        if (dakaList != null) {
-//            for (int i = 0; i < dakaList.size(); i++) {
-//                DakaItem dakaItem = dakaList.get(i);
-//                long clockDate = dakaItem.clockDate;
-//                Date date1 = new Date();
-//                date1.setTime(clockDate);
-//                if (date.equals(format.format(date1))) {
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
+    public void setDakaList(List<DakaItem> dakaList) {
+        this.dakaList = dakaList;
+        invalidate();
+        dakaInit = true;
+    }
+
+    //判断那天是不是在打卡里面
+    public boolean checkIsDaka(String date) {
+        if (dakaList != null) {
+            for (int i = 0; i < dakaList.size(); i++) {
+                DakaItem dakaItem = dakaList.get(i);
+                long clockDate = dakaItem.clockDate;
+                Date date1 = new Date();
+                date1.setTime(clockDate);
+                if (date.equals(format.format(date1))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public MonthView(Context context) {
         this(context, null);
@@ -111,6 +112,7 @@ public class MonthView extends View {
         darkPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 15, getContext().getResources().getDisplayMetrics()));
         darkPaint.setStrokeWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getContext().getResources().getDisplayMetrics()));
         darkPaint.setColor(Color.parseColor("#333333"));
+
         currentPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         currentPaint.setColor(Color.parseColor("#FFC824"));
         currentPaint.setStyle(Paint.Style.FILL);
@@ -157,13 +159,13 @@ public class MonthView extends View {
                     item.rect = rect;
                     items.add(item);
 
-//                    if (dakaList != null && dakaList.size() > 0) {
-//                        String date = year + "_" + (month < 10 ? "0" + month : month) + "_" + (j < 10 ? "0" + j : j);
-//                        if (checkIsDaka(date)) {
-//                            darkPaint.setColor(Color.parseColor("#cccccc"));
-//                            canvas.drawCircle((j - ((line1 + 1) + i * 7)) * itemWidth + itemWidth / 2, 2 * itemHeight + i * itemHeight + +itemHeight / 2 + allHeight / 2 + spaceDaka, dakaRadius, darkPaint);
-//                        }
-//                    }
+                    if (dakaList != null && dakaList.size() > 0) {
+                        String date = year + "_" + (month < 10 ? "0" + month : month) + "_" + (j < 10 ? "0" + j : j);
+                        if (checkIsDaka(date)) {
+                            darkPaint.setColor(Color.parseColor("#FF7F50"));
+                            canvas.drawCircle((j - ((line1 + 1) + i * 7)) * itemWidth + itemWidth / 2, 2 * itemHeight + i * itemHeight + +itemHeight / 2 + allHeight / 2 + spaceDaka, dakaRadius, darkPaint);
+                        }
+                    }
                 } else {
                     darkPaint.setColor(Color.parseColor("#cccccc"));
                     canvas.drawText(j - monthDaysCount + "", (j - ((line1 + 1) + i * 7)) * itemWidth + itemWidth / 2, 2 * itemHeight + i * itemHeight + itemHeight / 2 - allHeight / 2 - fontMetrics.ascent, darkPaint);
@@ -203,19 +205,24 @@ public class MonthView extends View {
             item.date = year + "_" + month + "_" + i;
             item.rect = rect;
             items.add(item);
-//            if (dakaList != null && dakaList.size() > 0) {
-//                String date = year + "_" + (month < 10 ? "0" + month : month) + "_" + (i < 10 ? "0" + i : i);
-//                if (checkIsDaka(date)) {
-//                    darkPaint.setColor(Color.parseColor("#cccccc"));
-//                    canvas.drawCircle((week - 1) * itemWidth + (i - 1) * itemWidth + itemWidth / 2, itemHeight + itemHeight / 2 + allHeight / 2 + spaceDaka, dakaRadius, darkPaint);
-//                }
-//            }
+            if (dakaList != null && dakaList.size() > 0) {
+                String date = year + "_" + (month < 10 ? "0" + month : month) + "_" + (i < 10 ? "0" + i : i);
+                if (checkIsDaka(date)) {
+                    darkPaint.setColor(Color.parseColor("#FF7F50"));
+                    canvas.drawCircle((week - 1) * itemWidth + (i - 1) * itemWidth + itemWidth / 2, itemHeight + itemHeight / 2 + allHeight / 2 + spaceDaka, dakaRadius, darkPaint);
+                }
+            }
         }
     }
 
     private void drawWeek(Canvas canvas) {
-        darkPaint.setColor(Color.parseColor("#cccccc"));
+//        darkPaint.setColor(Color.parseColor("#cccccc"));
         for (int i = 0; i < weekStr.length; i++) {
+            if (i == 0 || i == weekStr.length - 1) {
+                darkPaint.setColor(Color.parseColor("#FFC824"));
+            } else {
+                darkPaint.setColor(Color.parseColor("#cccccc"));
+            }
             canvas.drawText(weekStr[i], i * itemWidth + itemWidth / 2, itemHeight / 2 - allHeight / 2 - fontMetrics.ascent, darkPaint);
         }
     }

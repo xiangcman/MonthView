@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -34,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "日期:" + day, Toast.LENGTH_SHORT).show();
             }
         });
+        List<DakaItem> dakaItems = new ArrayList<>();
+        dakaItems.add(new DakaItem(1556812800000l));//5月3日
+        dakaItems.add(new DakaItem(1554134400000l));//4月2日
+        dakaItems.add(new DakaItem(1556380800000l));//4月28日
+        dakaItems.add(new DakaItem(1555257600000l));//4月15日
+        calendarViewPager.setDakaList(dakaItems);
         findViewById(R.id.left).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
